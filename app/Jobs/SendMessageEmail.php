@@ -40,7 +40,7 @@ class SendMessageEmail implements ShouldQueue
             ->get();
 
         foreach($followers as $f) {
-            \Mail::send('email.new_message_email',
+            \Mail::send('email.new_message',
                 [
                     'group_name' => $gc->name,
                     'content' => $msg->content

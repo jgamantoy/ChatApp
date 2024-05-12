@@ -37,10 +37,70 @@ class MessageController extends Controller
 
             $content = preg_replace('/\r\n|\r|\n/', '<br />', $content);
             $content = str_replace('{group_name}', $gc->name, $content);
+
+            $render = [];
+
+            if ($request->has('images')) {
+                $render['type'] = 'images';
+                $new_images = [];
+                foreach ($request->images as $image) {
+                    if (pathinfo($image, PATHINFO_EXTENSION)) {
+                        $image = str_replace('.png', '.jpeg');
+                    }
+                    $image = $image . "?w=600&h=600";
+                    if (str_contains($image, '\/stickers\/')) {
+                        $image = $image . '&tracker';
+                        if (str_contains($image, '\/pekori\/')) {
+                            if (preg_match('/\/pekori\/(.*?)\.(jpeg)/', $str, $match) == 1) {
+                                $ciphering = "AES-128-CTR";
+                                $options = 0;
+                                $encryption_iv = '1234567891011121';
+                                $encryption = openssl_encrypt('pekori', $ciphering,
+                                                $match[1], $options, $encryption_iv);
+                                $image = $image . $ecryption;
+                            } else {
+                                $image = $image . 'null';
+                            }
+                        } else if (str_contains($image, '\/user\/')) {
+                            $ciphering = "AES-128-CTR";
+                            $options = 0;
+                            $encryption_iv = '1234567891011121';
+                            $encryption = openssl_encrypt($user->slug, $ciphering,
+                                            'usersticker', $options, $encryption_iv);
+                            $image = $image . $ecryption;
+                        } else {
+                            $image = $image . 'null';
+                        }
+                    }
+                    array_push($new_images, $image);
+                }
+                $render['images'] = $new_images;
+            }
     
+            $senderCode = "placeholder";
+        
+            if ($request->has('mentions')) {
+                $mentions = $request->mentions;
+                $render['type'] = 'mention';
+                foreach($mentions as $mention) {
+                    $user = User::where('slug', $mention)->first();
+                    \Mail::send('email.mention',
+                        [
+                            'group_name' => $gc->name,
+                            'content' => $msg->content
+                        ], function ($message) use ($f) {
+                            $message->to('jgamantoy@gmail.com')
+                                ->subject('New Message Recieved!');
+                        }
+                    );
+                }
+
+                $render['mentions'] = $mentions;
+            }
+
             $message = Message::create([
                 'content' => $content,
-                'render' => ' ',
+                'render' => json_encode($render),
                 'group_chat_id' => 1,
                 'user_id' => $request->user()->id
             ]);
@@ -57,8 +117,4 @@ class MessageController extends Controller
             return response('Unathorized', 403);
         }
     }
-
-    // to do add email feature with $u param
-    // make unreadable code with comment trust me
-    // render
 }
