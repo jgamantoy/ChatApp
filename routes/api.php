@@ -29,5 +29,6 @@ Route::group([
     'middleware' => 'logged_in',
     'controller' => MessageController::class
 ], function () {
+    Route::get('{group_chat_id', 'index');
     Route::post('', 'store');
 });

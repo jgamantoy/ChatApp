@@ -15,6 +15,11 @@ use Validator;
 
 class MessageController extends Controller
 {
+    public function index(Request $request, $group_chat_id)
+    {
+        return GroupChat::with(['messages.user'])->find($group_chat_id);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
