@@ -1,0 +1,7 @@
+{
+  "group_chat_id": 1,
+  "content": "Welcome to {group_name}! \n -{signature}",
+  "images": [
+    "http://localhost:8000/images/stickers/smiling.jpeg"
+  ]
+}

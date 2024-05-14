@@ -16,18 +16,21 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'john',
+            'slug' => \Str::random(8),
             'email' => 'john1@yopmail.com',
             'password' => \Hash::make('password')
         ]);
 
         User::create([
             'name' => 'jon',
+            'slug' => \Str::random(8),
             'email' => 'john2@yopmail.com',
             'password' => \Hash::make('password')
         ]);
 
         User::create([
             'name' => 'joan',
+            'slug' => \Str::random(8),
             'email' => 'john3@yopmail.com',
             'password' => \Hash::make('password')
         ]);

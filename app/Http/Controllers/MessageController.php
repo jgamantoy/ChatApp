@@ -30,13 +30,14 @@ class MessageController extends Controller
         $gc = GroupChat::find($request->group_chat_id);
         $userGC = GroupChatUser::where('user_id', $user->id)
                     ->where('group_chat_id', $gc->id)
-                    ->firstOrFail();
+                    ->first();
 
         if ($userGC) {
             $content = \Purifier::clean($request->content);
 
             $content = preg_replace('/\r\n|\r|\n/', '<br />', $content);
             $content = str_replace('{group_name}', $gc->name, $content);
+            $content = str_replace('{signature}', '<strong>' . $user->name . '</strong>', $content);
 
             $render = [];
 
@@ -45,7 +46,7 @@ class MessageController extends Controller
                 $new_images = [];
                 foreach ($request->images as $image) {
                     if (pathinfo($image, PATHINFO_EXTENSION)) {
-                        $image = str_replace('.png', '.jpeg');
+                        $image = str_replace('.png', '.jpeg', $image);
                     }
                     $image = $image . "?w=600&h=600";
                     if (str_contains($image, '\/stickers\/')) {
