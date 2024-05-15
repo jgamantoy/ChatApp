@@ -93,10 +93,10 @@ class MessageController extends Controller
                     \Mail::send('email.mention',
                         [
                             'group_name' => $gc->name,
-                            'content' => $msg->content
+                            'content' => $request->content
                         ], function ($message) use ($f) {
-                            $message->to('jgamantoy@gmail.com')
-                                ->subject('New Message Recieved!');
+                            $message->to($f->email)
+                                ->subject('You have been mentioned in a chat!');
                         }
                     );
                 }

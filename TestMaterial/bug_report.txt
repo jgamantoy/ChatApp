@@ -1,0 +1,5 @@
+Title: Group Name not being replaced in Mention Emails!
+
+Description: Users who receive emails notifying that they are being mentioned in a chat have reported that message preview contains the text {group_name} if the sender included this string. This does not happen for new message emails.
+
+Expected Behaviour: {group_name} should be replaced with the group chat's name inside of the message text.

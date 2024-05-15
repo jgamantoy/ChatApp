@@ -22,6 +22,11 @@
               </tr>
               <tr>
                 <td align="center" valign="top">
+                  <p>Message Preview:</p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">
                   {!! $content !!}
                 </td>
               </tr>

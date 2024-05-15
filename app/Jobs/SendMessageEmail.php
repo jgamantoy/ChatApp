@@ -45,7 +45,7 @@ class SendMessageEmail implements ShouldQueue
                     'group_name' => $gc->name,
                     'content' => $msg->content
                 ], function ($message) use ($f) {
-                    $message->to('jgamantoy@gmail.com')
+                    $message->to($f->email)
                         ->subject('New Message Recieved!');
                 }
             );

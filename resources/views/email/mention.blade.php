@@ -20,6 +20,16 @@
                   <h2>{{ $group_name }}</h2>
                 </td>
               </tr>
+              <tr>
+                <td align="center" valign="top">
+                  <p>Message Preview:</p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">
+                  {!! $content !!}
+                </td>
+              </tr>
             </table>
         </center>
       </body>
