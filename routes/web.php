@@ -17,6 +17,11 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
+Route::get('/test', function() {
+    return 'how about now';
+
+});
+
 Route::get('/my-user', function (Request $request) {
     return $request->user();
 });
